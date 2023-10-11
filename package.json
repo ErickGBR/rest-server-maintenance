@@ -1,0 +1,25 @@
+{
+  "name": "rest-server-maintenance",
+  "version": "1.0.0",
+  "description": "REST server with Node.js to maintenance practice",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm test",
+    "dev": "nodemon index.js",
+    "start": "node index.js"
+  },
+  "keywords": [
+    "rest"
+  ],
+  "author": "Erick Burgos",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "helmet": "^7.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}
