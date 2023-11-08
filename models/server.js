@@ -2,7 +2,6 @@
 require("dotenv").config();
 const express = require('express');
 const cors = require('cors');
-const helmet = require('helmet');
 
 // Create a Server class
 class Server {
@@ -28,7 +27,6 @@ class Server {
         
         // Parse incoming JSON requests
         this.app.use(express.json());
-        this.app.use(helmet());
         
         // Serve static files from the 'public' directory
         this.app.use(express.static('public'));
