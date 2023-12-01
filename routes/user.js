@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const { check } = require("express-validator");
-const { rolValidateDb } = require("../helpers/db-validators");
+const { rolValidateDb, emailExist } = require("../helpers/db-validators");
 const { validateFields } = require('../middlewares/validate-fields');
 const { userGet, userPut, userPost, userDelete, userPatch } = require('../controllers/user.controller');
 
@@ -11,7 +11,7 @@ router.put('/:id', userPut)
 router.post('/', 
     check("name", "Name is required").not().isEmpty(),
     check("password", "Password is required").isLength({min: 6}),
-    check("email", "Email is required").isEmail(),
+    check("email").custom(emailExist),
     check("rol").custom(rolValidateDb),
     validateFields
 , userPost)
