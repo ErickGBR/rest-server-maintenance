@@ -15,7 +15,16 @@ const emailExist = async(email = "")=>{
     }
 }
 
+const existUserById = async(id)=>{
+    const existUser = await Users.findById(id);
+    if(!existUser){
+        throw new Error(`User ${id} does not exist`);
+    }    
+}
+
+
 module.exports ={
     rolValidateDb,
-    emailExist
+    emailExist,
+    existUserById
 }
