@@ -7,6 +7,7 @@ const { userGet, userPut, userPost, userDelete, userPatch } = require('../contro
 const router = Router();
 
 router.get('/', userGet)
+
 router.put('/:id',[
     check("id", "Not is a valid ID").isMongoId(),
     check("id").custom(existUserById),

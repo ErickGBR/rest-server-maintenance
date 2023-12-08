@@ -1,14 +1,22 @@
 const { response } = require("express");
 const bcryptjs = require("bcryptjs");
 const Users = require("../models/user");
-const emailExist = require("../helpers/db-validators");
+//const emailExist = require("../helpers/db-validators");
 
-const userGet = (req, res = response) => {
+const userGet = async (req, res = response) => {
   try {
+    let { limit = 5, page = 0 } = req.query;
+    limit = parseInt(limit)
+    page = parseInt(page)
+    const user = await Users.find()
+    .limit(limit)
+    .skip(page);
+    const total = await Users.countDocuments();
     res.status(200).json({
       status: true,
-      msg: "GET API - controller",
-      data: {},
+      msg: "GET API - success",
+      data: user,
+      total
     });
   } catch (error) {
     res.status(500).json({
@@ -27,16 +35,15 @@ const userPost = async (req, res = response) => {
     const salt = bcryptjs.genSaltSync();
     user.password = await bcryptjs.hashSync(password, salt);
     await user.save();
-
     res.status(200).json({
       status: true,
-      msg: "POST API - controller",
+      msg: "Add user API - controller success",
       user,
     });
   } catch (error) {
     res.status(500).json({
       status: false,
-      msg: "POST API - controller",
+      msg: "POST API - controller fail",
       error,
     });
   }

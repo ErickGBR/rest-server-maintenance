@@ -10,7 +10,7 @@ const rolValidateDb = async(rol ="")=>{
 
 const emailExist = async(email = "")=>{
     const emailResult = await Users.findOne({email});
-    if(!emailResult){
+    if(emailResult){
         throw new Error(`Email ${email} already exists`);
     }
 }
