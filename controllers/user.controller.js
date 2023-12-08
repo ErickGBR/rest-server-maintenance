@@ -8,16 +8,27 @@ const userGet = async (req, res = response) => {
     let { limit = 5, page = 0 } = req.query;
     limit = parseInt(limit)
     page = parseInt(page)
-    const user = await Users.find()
+    const query = {state: true}
+    /* 
+    const user = await Users.find(query)
     .limit(limit)
     .skip(page);
-    const total = await Users.countDocuments();
+    const total = await Users.countDocuments(query);
+    */
+
+    const [total, user] = await Promise.all([
+      Users.countDocuments(query),
+      Users.find(query)
+    .limit(limit)
+    .skip(page)
+    ])
+
     res.status(200).json({
       status: true,
-      msg: "GET API - success",
-      data: user,
+      user,
       total
     });
+    
   } catch (error) {
     res.status(500).json({
       status: false,
