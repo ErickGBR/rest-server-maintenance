@@ -20,7 +20,11 @@ router.post('/',
     check("rol").custom(rolValidateDb),
     validateFields
 , userPost)
-router.delete('/:id', userDelete)
+router.delete('/:id',[
+    check("id", "Not is a valid ID").isMongoId(),
+    check("id").custom(existUserById),
+    validateFields
+], userDelete)
 router.patch('/:id', userPatch)
 
 module.exports = router;

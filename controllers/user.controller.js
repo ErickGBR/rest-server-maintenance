@@ -15,9 +15,8 @@ const userGet = async (req, res = response) => {
     .skip(page);
     const total = await Users.countDocuments(query);
     */
-
     const [total, user] = await Promise.all([
-      Users.countDocuments(query),
+      Users.countDocuments(query), 
       Users.find(query)
     .limit(limit)
     .skip(page)
@@ -106,15 +105,17 @@ const userPatch = (req, res = response) => {
   }
 };
 
-const userDelete = (req, res = response) => {
+const userDelete = async (req, res = response) => {
   const id = req.params.id;
   try {
+
+    //delete user
+    //const user = await Users.findByIdAndDelete(id);
+    const user = await Users.findByIdAndUpdate(id, { state: false });
     res.status(200).json({
       status: true,
-      msg: "DELETE API - controller",
-      data: {
-        id,
-      },
+      msg: "DELETE API - Success",
+      data: user
     });
   } catch (error) {
     res.status(500).json({
