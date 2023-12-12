@@ -9,7 +9,7 @@ class Server {
         this.app = express(); // Initialize Express application
         this.port = process.env.PORT; // Set the server port from environment variables
         this.userRoutesPath = '/api/user'; // Define the base path for user routes
-        
+        this.authPath = '/api/auth'; // Define the base path for auth routes        
         //ConnectDB
         this.connectDb()
 
@@ -45,6 +45,7 @@ class Server {
     routes() {
         // Use the user routes defined in the 'user' module
         this.app.use(this.userRoutesPath, require('../routes/user'));
+        this.app.use(this.authPath, require('../routes/auth'));
     }
 
     // Error handling middleware
