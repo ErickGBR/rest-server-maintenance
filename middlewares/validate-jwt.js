@@ -1,5 +1,7 @@
 const jwt = require("jsonwebtoken");
-const validateJWT = (req, res, next) => {
+const Users = require("../models/user");
+
+const validateJWT = async (req, res, next) => {
   const token = req.header("x-token");
   if (!token) {
     return res.status(401).json({
@@ -10,7 +12,24 @@ const validateJWT = (req, res, next) => {
   try {
     const payload = jwt.verify(token, process.env.SECRETORPRIVATEKEY);
     req.uid = payload.uid;
-    console.log(payload);
+    const user = await Users.findOne({ _id: payload.uid });
+    req.user = user;
+
+    //user exist
+    if(!user){
+        return res.status(401).json({
+            msg: "User not found"
+        })
+
+    }
+
+    //verify user state is active
+    if(!user.status){
+      return res.status(401).json({
+        msg: "User not active",
+      });
+    }
+    console.log(req.user);
     next();
   } catch (error) {
     console.log(error);

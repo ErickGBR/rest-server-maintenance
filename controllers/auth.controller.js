@@ -15,12 +15,12 @@ const userAuth = async (req, res = response) => {
     }
 
     //verify if the user is active
-    if (!user.state) {
+    if (!user.status) {
       return res.status(400).json({
         msg: "User not active",
       });
     }
-    
+
     //verify password
     const validPassword = bcryptjs.compareSync(password, user.password);
     if (!validPassword) {

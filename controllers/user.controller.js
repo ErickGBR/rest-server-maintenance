@@ -8,7 +8,7 @@ const userGet = async (req, res = response) => {
     let { limit = 5, page = 0 } = req.query;
     limit = parseInt(limit)
     page = parseInt(page)
-    const query = {state: true}
+    const query = {status: true}
     /* 
     const user = await Users.find(query)
     .limit(limit)
@@ -111,7 +111,7 @@ const userDelete = async (req, res = response) => {
 
     //delete user
     //const user = await Users.findByIdAndDelete(id);
-    const user = await Users.findByIdAndUpdate(id, { state: false });
+    const user = await Users.findByIdAndUpdate(id, { status: false });
     res.status(200).json({
       status: true,
       msg: "DELETE API - Success",
