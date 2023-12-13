@@ -5,7 +5,14 @@ const {
   emailExist,
   existUserById,
 } = require("../helpers/db-validators");
-const { validateFields } = require("../middlewares/validate-fields");
+
+const {
+  validateFields,
+  validateJWT,
+  //adminRol,
+  takeARol,
+} = require("../middlewares");
+
 const {
   userGet,
   userPut,
@@ -13,14 +20,14 @@ const {
   userDelete,
   userPatch,
 } = require("../controllers/user.controller");
-const { validateJWT } = require("../middlewares/validate-jwt");
 const router = Router();
 
-router.get("/", userGet);
+router.get("/", [validateJWT], userGet);
 
 router.put(
   "/:id",
   [
+    validateJWT,
     check("id", "Not is a valid ID").isMongoId(),
     check("id").custom(existUserById),
     check("rol").custom(rolValidateDb),
@@ -29,6 +36,7 @@ router.put(
 );
 router.post(
   "/",
+  validateJWT,
   check("name", "Name is required").not().isEmpty(),
   check("password", "Password is required").isLength({ min: 6 }),
   check("email").custom(emailExist),
@@ -39,13 +47,16 @@ router.post(
 router.delete(
   "/:id",
   [
+    //adminRol,
     validateJWT,
+    takeARol("admin", "user"),
     check("id", "Not is a valid ID").isMongoId(),
     check("id").custom(existUserById),
     validateFields,
   ],
   userDelete
 );
-router.patch("/:id", userPatch);
+
+router.patch("/:id", [validateJWT], userPatch);
 
 module.exports = router;
