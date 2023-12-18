@@ -2,10 +2,10 @@ const { response } = require("express");
 const bcryptjs = require("bcryptjs");
 const Users = require("../models/user");
 const { generateJWT } = require("../helpers/generate-jwt");
+const { googleVerify } = require("../helpers/google-verify");
 const userAuth = async (req, res = response) => {
   try {
     const { email, password } = req.body;
-
     //verify if the user exists
     const user = await Users.findOne({ email });
     if (!user) {
@@ -44,6 +44,41 @@ const userAuth = async (req, res = response) => {
   }
 };
 
+const googleAuth = async (req, res = response) => {
+  const { id_token } = req.body;
+  const googleUser = await googleVerify(id_token);
+  const { email, name, picture } = googleUser;
+  let user = await Users.findOne({ email });
+
+  if (!user) {
+    const randomPassString = (Math.random() + 1).toString(36).substring(7);
+    const salt = bcryptjs.genSaltSync();
+    const password = bcryptjs.hashSync(randomPassString, salt);
+    const data = {
+      name,
+      email,
+      picture,
+      password
+    };
+
+    user = new Users(data);
+    await user.save();
+    if (!user.status) {
+      return res.status(400).json({
+        msg: "Talk with an administrator, this user is disabled",
+      });
+    }
+
+    //generate el JWT
+    const token = await generateJWT(user.id);
+    return res.json({
+      user,
+      token,
+    });
+  }
+};
+
 module.exports = {
   userAuth,
+  googleAuth,
 };
