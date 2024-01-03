@@ -26,9 +26,13 @@ REST server with Node.js for maintenance practice, showcasing robust backend dev
 
 ## Scripts
 
-- `npm test`: Run tests.
-- `npm run dev`: Start the development server using Nodemon and index.js.
+- `npm dev`: Start the development server using Nodemon and index.js.
 - `npm start`: Start the server using Node.js.
+- or
+- `yarn dev`: Start the development server using Nodemon and index.js.
+- `yarn start`: Start the server using Node.js.
+
+
 
 ## Endpoints
 
