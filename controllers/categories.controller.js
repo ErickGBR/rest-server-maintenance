@@ -35,6 +35,13 @@ const getCategories = async (req, res = response) => {
   });
 };
 
+const getCategoriesById = async (req, res = response) => {
+  const { id } = req.params;
+  const category = await Categories.findById(id);
+  res.status(200).json({
+    category,
+  });
+}
 
 const updateCategories = async (req, res = response) => {
   const { id } = req.params;
@@ -54,10 +61,19 @@ const deleteCategories = async (req, res = response) => {
   });
 }
 
+const existCategoryById = async (id) => {
+  const existCategory = await Categories.findById(id);
+  if (!existCategory) {
+    throw new Error(`Category ${id} not found`);
+  }
+}
+
 
 module.exports = {
   createCategories,
   getCategories,
   updateCategories,
-  deleteCategories
+  deleteCategories,
+  getCategoriesById,
+  existCategoryById
 };
