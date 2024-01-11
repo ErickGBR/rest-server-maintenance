@@ -1,9 +1,9 @@
 const { response } = require("express");
 const { Categories } = require("../models");
 
-const createCategories = (req, res = response) => {
+const createCategories = async (req, res = response) => {
   const name = req.body.name.toUpperCase();
-  const categoriesDb = Categories.findOne({ name });
+  const categoriesDb = await Categories.findOne({ name });
   if (categoriesDb) {
     return res.status(400).json({
       msg: `This category ${name} already exists`,

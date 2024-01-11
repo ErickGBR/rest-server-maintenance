@@ -32,10 +32,10 @@ router.post(
 );
 
 //put category - private with all roles
-router.put(
-  "/:id",
+router.put("/:id",
   [
     validateJWT,
+    check("id").custom(existCategoryById),
     check("name", "Name is required").not().isEmpty(),
     validateFields,
   ],

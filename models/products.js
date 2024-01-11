@@ -1,5 +1,5 @@
 const { Schema, model } = require("mongoose");
-const { Category } = require(".");
+
 
 const ProductSchema = Schema({
     name: {
@@ -41,4 +41,4 @@ const ProductSchema = Schema({
     return data;
 }
   
-  module.exports = model("Categories", ProductSchema);
+  module.exports = model("Products", ProductSchema);
