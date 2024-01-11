@@ -11,6 +11,7 @@ class Server {
     this.paths = {
       categoriesPath: "/api/categories", // Define the base path for category routes
       userRoutesPath: "/api/user", // Define the base path for user routes
+      productsPath: "/api/products",
       authPath: "/api/auth", // Define the base path for auth routes
     };
     //ConnectDB
@@ -50,6 +51,7 @@ class Server {
     this.app.use(this.paths.userRoutesPath, require("../routes/user"));
     this.app.use(this.paths.authPath, require("../routes/auth"));
     this.app.use(this.paths.categoriesPath, require("../routes/categories"));
+    this.app.use(this.paths.productsPath, require("../routes/products"));
   }
 
   // Error handling middleware
