@@ -1,5 +1,6 @@
 const { response } = require("express");
 const { Products } = require("../models");
+const { body } = require("express-validator");
 const createProduct = async (req, res = response) => {
   // create a new product
 
@@ -7,21 +8,17 @@ const createProduct = async (req, res = response) => {
     const name = req.body.name.toUpperCase();
     const productsDb = Products.findOne({ name });
 
+    const { user, status, ...body } = req.body;
     if (productsDb) {
       return res.status(400).json({
         msg: `This product ${name} already exists`,
       });
     }
-    const { price, status, category, description, available } = req.body;
 
     const data = {
-      name,
+      ...body,
+      name: body.name.toUpperCase(),
       user: req.user._id,
-      price,
-      status,
-      category,
-      description,
-      available,
     };
 
     const product = new Products(data);
