@@ -10,6 +10,7 @@ class Server {
     this.port = process.env.PORT; // Set the server port from environment variables
     this.paths = {
       categoriesPath: "/api/categories", // Define the base path for category routes
+      searchPath: "/api/search", // Define the base path for search routes
       userRoutesPath: "/api/user", // Define the base path for user routes
       productsPath: "/api/products",
       authPath: "/api/auth", // Define the base path for auth routes
@@ -49,6 +50,7 @@ class Server {
   routes() {
     // Use the user routes defined in the 'user' module
     this.app.use(this.paths.userRoutesPath, require("../routes/user"));
+    this.app.use(this.paths.searchPath, require("../routes/search"));
     this.app.use(this.paths.authPath, require("../routes/auth"));
     this.app.use(this.paths.categoriesPath, require("../routes/categories"));
     this.app.use(this.paths.productsPath, require("../routes/products"));
