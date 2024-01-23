@@ -12,7 +12,8 @@ class Server {
       categoriesPath: "/api/categories", // Define the base path for category routes
       searchPath: "/api/search", // Define the base path for search routes
       userRoutesPath: "/api/user", // Define the base path for user routes
-      productsPath: "/api/products",
+      productsPath: "/api/products", // Define the base path for product routes
+      uploadPath: "/api/upload", // Define the base path for upload routes
       authPath: "/api/auth", // Define the base path for auth routes
     };
     //ConnectDB
@@ -54,6 +55,7 @@ class Server {
     this.app.use(this.paths.authPath, require("../routes/auth"));
     this.app.use(this.paths.categoriesPath, require("../routes/categories"));
     this.app.use(this.paths.productsPath, require("../routes/products"));
+    this.app.use(this.paths.uploadPath, require("../routes/upload"));
   }
 
   // Error handling middleware

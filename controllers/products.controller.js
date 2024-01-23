@@ -1,9 +1,8 @@
 const { response } = require("express");
 const { Products } = require("../models");
-const { body } = require("express-validator");
+
 const createProduct = async (req, res = response) => {
   // create a new product
-
   try {
     const name = req.body.name.toUpperCase();
     const productsDb = Products.findOne({ name });
@@ -29,6 +28,7 @@ const createProduct = async (req, res = response) => {
     return res.status(500).json({ msg: "Something went wrong" });
   }
 };
+
 
 // Get all products
 const getProducts = async (req, res = response) => {

@@ -4,8 +4,6 @@ const { validateJWT } = require("../middlewares");
 
 const router = Router();
 
-
-
 router.get("/:collection/:term", [validateJWT], search);
 
 module.exports = router;
