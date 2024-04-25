@@ -5,7 +5,7 @@ const createProduct = async (req, res = response) => {
   // create a new product
   try {
     const name = req.body.name.toUpperCase();
-    const productsDb = Products.findOne({ name });
+    const productsDb = await Products.findOne({ name });
 
     const { user, status, ...body } = req.body;
     if (productsDb) {
@@ -25,10 +25,10 @@ const createProduct = async (req, res = response) => {
 
     return res.status(201).json(product);
   } catch (error) {
+    console.error(error);
     return res.status(500).json({ msg: "Something went wrong" });
   }
 };
-
 
 // Get all products
 const getProducts = async (req, res = response) => {
@@ -37,7 +37,7 @@ const getProducts = async (req, res = response) => {
 
     // Calculate the skip value
     const skip = (page - 1) * limit;
-
+    
     // Fetch the products with pagination and populate the 'category' field
     const products = await Products.find()
       .limit(Number(limit))
@@ -51,6 +51,7 @@ const getProducts = async (req, res = response) => {
       data: products,
       total,
     });
+
   } catch (error) {
     return res.status(500).json({ msg: "Something went wrong" });
   }
@@ -75,7 +76,6 @@ const getProductById = (req, res = response) => {
 // Update a product
 const updateProduct = (req, res = response) => {
   // update a product
-
   try {
     const { id } = req.params;
     const { ...data } = req.body;
@@ -92,7 +92,6 @@ const updateProduct = (req, res = response) => {
 // Delete a product
 const deleteProduct = (req, res = response) => {
   // delete a product
-
   try {
     const { id } = req.params;
     const product = Products.findByIdAndDelete(id);
