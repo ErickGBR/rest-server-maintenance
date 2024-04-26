@@ -2,7 +2,9 @@
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
+const fileUpload = require("express-fileupload");
 const { dbConnection } = require("../database/config");
+
 // Create a Server class
 class Server {
   constructor() {
@@ -45,6 +47,11 @@ class Server {
 
     // Serve static files from the 'public' directory
     this.app.use(express.static("public"));
+
+    this.app.use(fileUpload({
+      useTempFiles : true,
+      tempFileDir : '/tmp/'
+  }));
   }
 
   // Define routes
