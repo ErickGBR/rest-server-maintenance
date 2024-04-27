@@ -23,7 +23,8 @@
     "google-auth-library": "^9.4.1",
     "helmet": "^7.0.0",
     "jsonwebtoken": "^9.0.2",
-    "mongoose": "^8.0.2"
+    "mongoose": "^8.0.2",
+    "uuidv4": "^6.2.13"
   },
   "devDependencies": {
     "nodemon": "^3.0.1"
