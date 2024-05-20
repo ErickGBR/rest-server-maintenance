@@ -10,9 +10,12 @@ const uploadFiles = async (req, res = response) => {
     }
     const pathComplete = await uploadFile(req.files)
     return res.status(200).send({pathComplete})
+
   } catch (error) {
     console.log(error)
+
     return res.status(500).json({ msg: "Something went wrong" });
+    
   }
 };
 

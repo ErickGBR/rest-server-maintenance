@@ -17,7 +17,8 @@ const uploadFile = (files, validExtensions = ['jpg', 'jpeg', 'png', 'gif'], fold
       if (err)
         reject(err)
     });
-    resolve(tempName)
+
+    resolve(tempName);
 
   })
 }
