@@ -11,7 +11,7 @@ const uploadFile = (files, validExtensions = ['jpg', 'jpeg', 'png', 'gif'], fold
       reject(`Extention file is not valid - ${extension}`)
     }
     const tempName = `${uuidv4()}.${extension}`;
-    const uploadPath = path.join(__dirname, '../uploads/' + folder + tempName)
+    const uploadPath = path.join(__dirname, '../uploads/',folder, tempName)
     // Use the mv() method to place the file somewhere on your server
     file.mv(uploadPath, function (err) {
       if (err)
