@@ -1,7 +1,7 @@
 const { Router } = require("express");
-const { uploadFile } = require("../controllers/uploadFile.controller");
+const { uploadFiles } = require("../controllers/uploadFile.controller");
 
 const routers = Router();
-routers.post("/", uploadFile);
+routers.post("/", uploadFiles);
 
 module.exports = routers;

@@ -1,7 +1,7 @@
-
+const path = require("path");
+const { uuid: uuidv4 } = require('uuidv4');
 
 const uploadFile = (files, validExtensions = ['jpg', 'jpeg', 'png', 'gif'], folder = "") => {
-
   return new Promise((resolve, reject) => {
     // The name of the input field (i.e. "file") is used to retrieve the uploaded file
     const { file } = files;
@@ -17,8 +17,11 @@ const uploadFile = (files, validExtensions = ['jpg', 'jpeg', 'png', 'gif'], fold
       if (err)
         reject(err)
     });
-    resolve(uploadPath)
+    resolve(tempName)
 
   })
-
 }
+
+module.exports = {
+  uploadFile
+};
