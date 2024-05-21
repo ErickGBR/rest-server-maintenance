@@ -22,9 +22,18 @@ const existUserById = async(id)=>{
     }    
 }
 
+const collectionsPermited = async(collection="", collections =[])=>{
+    const included = collections.includes(collection);
+    if(!included){
+        throw new Error(`The collection ${collection} is restricted, only: ${collections}`);
+    }
+
+    return true;
+}
 
 module.exports ={
     rolValidateDb,
     emailExist,
-    existUserById
+    existUserById,
+    collectionsPermited
 }

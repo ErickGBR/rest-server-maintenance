@@ -9,7 +9,7 @@ const uploadFiles = async (req, res = response) => {
       return res.status(400).send('No files were uploaded.');
     }
     const pathComplete = await uploadFile(req.files, undefined, "imgs")
-    return res.status(200).send({pathComplete})
+    return res.status(200).send({ pathComplete })
 
   } catch (error) {
     console.log(error)
@@ -19,6 +19,15 @@ const uploadFiles = async (req, res = response) => {
   }
 };
 
+const updateImage = async (req, res = response) => {
+  try {
+
+  } catch (error) {
+
+  }
+}
+
 module.exports = {
-  uploadFiles
+  uploadFiles,
+  updateImage
 };
