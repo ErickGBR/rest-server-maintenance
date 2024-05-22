@@ -1,5 +1,6 @@
 const { response } = require("express");
 const { uploadFile } = require("../helpers");
+const { User, Products } = require("../models");
 
 const uploadFiles = async (req, res = response) => {
   // create a new product
@@ -20,12 +21,38 @@ const uploadFiles = async (req, res = response) => {
 };
 
 const updateImage = async (req, res = response) => {
-  try {
+  let model;
+  const { id, collections } = req.params;
 
-  } catch (error) {
+  switch (collections) {
+    case "users":
+      model = await User.findById(id)
+      if (!model) {
+        return res.status(400).send({
+          msg: `Not exist user with id ${id}`
+        })
+      }
+      break;
 
+    case "product":
+      model = await Products.findById(id)
+      if (!model) {
+        return res.status(400).send({
+          msg: `Not exist products with id ${id}`
+        })
+      }
+      break;
+
+    default:
+      return res.status(500).send({
+        msg: "not validated"
+      })
   }
-}
+
+  model.img = await uploadFile(req.files, undefined, collections)
+  await model.save()
+
+  res.json(model)
 
 module.exports = {
   uploadFiles,
