@@ -25,9 +25,9 @@ const uploadFiles = async (req, res = response) => {
 
 const updateImage = async (req, res = response) => {
   let model;
-  const { id, collections } = req.params;
+  const { id, collection } = req.params;
 
-  switch (collections) {
+  switch (collection) {
     case "users":
       model = await User.findById(id)
       if (!model) {
@@ -37,7 +37,7 @@ const updateImage = async (req, res = response) => {
       }
       break;
 
-    case "product":
+    case "products":
       model = await Products.findById(id)
       if (!model) {
         return res.status(400).send({
@@ -71,9 +71,10 @@ const updateImage = async (req, res = response) => {
 const showImage = async (req, res = response) => {
 
   let model;
-  const { id, collections } = req.params;
+  const { id, collection } = req.params;
 
-  switch (collections) {
+  console.log(id, collection)
+  switch (collection) {
     case "users":
       model = await User.findById(id)
       if (!model) {
@@ -83,7 +84,7 @@ const showImage = async (req, res = response) => {
       }
       break;
 
-    case "product":
+    case "products":
       model = await Products.findById(id)
       if (!model) {
         return res.status(400).send({
@@ -105,7 +106,11 @@ const showImage = async (req, res = response) => {
     if (fs.existsSync(pathImage)) {
       res.sendFile(pathImage);
     }
+  }else{
+    const pathImage = path.join(__dirname, "../assets/no-image.jpg")
+    res.sendFile(pathImage);
   }
+
 
 }
 module.exports = {
