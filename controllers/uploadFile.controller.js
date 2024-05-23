@@ -1,3 +1,6 @@
+const path = require("path");
+const fs = require("fs");
+
 const { response } = require("express");
 const { uploadFile } = require("../helpers");
 const { User, Products } = require("../models");
@@ -49,10 +52,21 @@ const updateImage = async (req, res = response) => {
       })
   }
 
+
+  //clean previus images
+  if (model.img) {
+    const pathImage = path.join(__dirname, "../uploads", collections, model.img)
+    if (fs.existsSync(pathImage)) {
+      fs.unlinkSync(pathImage);
+    }
+  }
+
   model.img = await uploadFile(req.files, undefined, collections)
   await model.save()
 
   res.json(model)
+
+}
 
 module.exports = {
   uploadFiles,
