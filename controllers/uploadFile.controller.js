@@ -68,7 +68,48 @@ const updateImage = async (req, res = response) => {
 
 }
 
+const showImage = async (req, res = response) => {
+
+  let model;
+  const { id, collections } = req.params;
+
+  switch (collections) {
+    case "users":
+      model = await User.findById(id)
+      if (!model) {
+        return res.status(400).send({
+          msg: `Not exist user with id ${id}`
+        })
+      }
+      break;
+
+    case "product":
+      model = await Products.findById(id)
+      if (!model) {
+        return res.status(400).send({
+          msg: `Not exist products with id ${id}`
+        })
+      }
+      break;
+
+    default:
+      return res.status(500).send({
+        msg: "not validated"
+      })
+  }
+
+
+  //clean previus images
+  if (model.img) {
+    const pathImage = path.join(__dirname, "../uploads", collections, model.img)
+    if (fs.existsSync(pathImage)) {
+      res.sendFile(pathImage);
+    }
+  }
+
+}
 module.exports = {
   uploadFiles,
-  updateImage
+  updateImage,
+  showImage
 };
