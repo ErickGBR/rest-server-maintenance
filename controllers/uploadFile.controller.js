@@ -1,6 +1,7 @@
 const path = require("path");
 const fs = require("fs");
-
+const cloudinary = require('cloudinary').v2
+cloudinary.config(process.env.CLOUDINARY_URL)
 const { response } = require("express");
 const { uploadFile } = require("../helpers");
 const { User, Products } = require("../models");
@@ -55,18 +56,61 @@ const updateImage = async (req, res = response) => {
 
   //clean previus images
   if (model.img) {
-    const pathImage = path.join(__dirname, "../uploads", collections, model.img)
+    const pathImage = path.join(__dirname, "../uploads", collection, model.img)
     if (fs.existsSync(pathImage)) {
       fs.unlinkSync(pathImage);
     }
   }
 
-  model.img = await uploadFile(req.files, undefined, collections)
+  model.img = await uploadFile(req.files, undefined, collection)
   await model.save()
 
   res.json(model)
 
 }
+
+
+const updateImageClouddinary = async (req, res = response) => {
+  let model;
+  const { id, collection } = req.params;
+
+  switch (collection) {
+    case "users":
+      model = await User.findById(id)
+      if (!model) {
+        return res.status(400).send({
+          msg: `Not exist user with id ${id}`
+        })
+      }
+      break;
+
+    case "products":
+      model = await Products.findById(id)
+      if (!model) {
+        return res.status(400).send({
+          msg: `Not exist products with id ${id}`
+        })
+      }
+      break;
+
+    default:
+      return res.status(500).send({
+        msg: "not validated"
+      })
+  }
+
+
+  //clean previus images
+  const { tempFilePath } = req.files.file
+  const { secure_url } = await cloudinary.uploader.upload(tempFilePath)
+
+  model.img = secure_url
+  await model.save()
+
+  res.json(model)
+
+}
+
 
 const showImage = async (req, res = response) => {
 
@@ -106,15 +150,17 @@ const showImage = async (req, res = response) => {
     if (fs.existsSync(pathImage)) {
       res.sendFile(pathImage);
     }
-  }else{
+  } else {
     const pathImage = path.join(__dirname, "../assets/no-image.jpg")
     res.sendFile(pathImage);
   }
 
 
 }
+
 module.exports = {
   uploadFiles,
   updateImage,
-  showImage
+  showImage,
+  updateImageClouddinary
 };
