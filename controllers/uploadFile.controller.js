@@ -104,6 +104,7 @@ const updateImageClouddinary = async (req, res = response) => {
     const nameArr = model.img.split("/")
     const name = nameArr[nameArr.length - 1]
     const [public_id]= name.split(".")
+    await cloudinary.uploader.destroy(public_id)
   }
 
   //clean previus images
